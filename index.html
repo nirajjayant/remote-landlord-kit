@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Remote Landlord Kit — manage your rental from anywhere with Claude</title>
+<meta name="description" content="I manage my rental house from 1,700 miles away with an AI staff. The Remote Landlord Kit is the exact system — ready to run on your own Claude subscription tonight.">
+<style>
+  :root {
+    --ink: #1f2a24;
+    --ink-soft: #4c5a52;
+    --paper: #faf7f2;
+    --card: #ffffff;
+    --accent: #1d5c46;
+    --accent-hover: #174a38;
+    --accent-soft: #e7f0ec;
+    --gold: #b98a2f;
+    --line: #e5ded2;
+    --chat-them: #ececec;
+    --chat-agent: #dcefe6;
+    --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; line-height: 1.15; font-weight: 700; }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+  a { color: var(--accent); }
+
+  /* ---------- nav ---------- */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(250,247,242,.92); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; max-width: 1060px; margin: 0 auto; }
+  .brand { font-family: Georgia, serif; font-weight: 700; font-size: 1.05rem; text-decoration: none; color: var(--ink); }
+  .brand span { color: var(--accent); }
+  .nav-links { display: flex; gap: 22px; align-items: center; }
+  .nav-links a { text-decoration: none; color: var(--ink-soft); font-size: .92rem; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta {
+    background: var(--accent); color: #fff !important; padding: 8px 16px; border-radius: 8px; font-weight: 600;
+  }
+  .nav-cta:hover { background: var(--accent-hover); }
+  @media (max-width: 640px) { .nav-links a:not(.nav-cta) { display: none; } }
+
+  /* ---------- hero ---------- */
+  header.hero { padding: 84px 0 64px; text-align: center; }
+  .kicker {
+    display: inline-block; font-size: .8rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin-bottom: 18px;
+    background: var(--accent-soft); padding: 6px 14px; border-radius: 999px;
+  }
+  .hero h1 { font-size: clamp(2rem, 5vw, 3.3rem); max-width: 820px; margin: 0 auto 22px; }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero p.sub { font-size: 1.18rem; color: var(--ink-soft); max-width: 640px; margin: 0 auto 34px; }
+  .cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; padding: 14px 26px; border-radius: 10px; font-weight: 700; font-size: 1rem;
+    text-decoration: none; border: 2px solid transparent; cursor: pointer;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-ghost { border-color: var(--accent); color: var(--accent); background: transparent; }
+  .btn-ghost:hover { background: var(--accent-soft); }
+  .hero .note { margin-top: 16px; font-size: .85rem; color: var(--ink-soft); }
+
+  /* ---------- proof strip ---------- */
+  .proof { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--card); }
+  .proof-inner { display: flex; justify-content: center; gap: 48px; padding: 22px 24px; flex-wrap: wrap; max-width: 1060px; margin: 0 auto; }
+  .proof-item { text-align: center; }
+  .proof-item strong { display: block; font-size: 1.5rem; font-family: Georgia, serif; color: var(--accent); }
+  .proof-item span { font-size: .82rem; color: var(--ink-soft); }
+
+  /* ---------- sections ---------- */
+  section { padding: 72px 0; }
+  .section-kicker { font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 10px; }
+  section h2 { font-size: clamp(1.6rem, 3.5vw, 2.3rem); margin-bottom: 14px; }
+  .section-lede { color: var(--ink-soft); font-size: 1.08rem; max-width: 620px; margin-bottom: 40px; }
+
+  /* ---------- demo ---------- */
+  #demo { background: linear-gradient(180deg, var(--paper) 0%, #f1ece2 100%); }
+  .demo-grid { display: grid; grid-template-columns: 380px 1fr; gap: 40px; align-items: start; }
+  @media (max-width: 860px) { .demo-grid { grid-template-columns: 1fr; } }
+  .phone {
+    background: var(--card); border: 1px solid var(--line); border-radius: 22px;
+    box-shadow: 0 16px 40px rgba(31,42,36,.10);
+    overflow: hidden; max-width: 380px; margin: 0 auto; width: 100%;
+  }
+  .phone-top {
+    background: var(--ink); color: #fff; padding: 12px 18px; font-size: .85rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .phone-top .dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; display: inline-block; margin-right: 7px; }
+  .chat { padding: 18px; min-height: 380px; max-height: 480px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+  .bubble {
+    max-width: 88%; padding: 10px 14px; border-radius: 14px; font-size: .9rem;
+    opacity: 0; transform: translateY(8px); transition: opacity .45s ease, transform .45s ease;
+  }
+  .bubble.show { opacity: 1; transform: none; }
+  .bubble.them { background: var(--chat-them); align-self: flex-start; border-bottom-left-radius: 4px; }
+  .bubble.agent { background: var(--chat-agent); align-self: flex-end; border-bottom-right-radius: 4px; }
+  .bubble.sysnote {
+    background: transparent; align-self: center; text-align: center; color: var(--ink-soft);
+    font-size: .76rem; font-style: italic; max-width: 100%; padding: 2px 8px;
+  }
+  .bubble .tag {
+    display: inline-block; font-size: .68rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 4px;
+  }
+  .bubble pre {
+    font-family: var(--mono); font-size: .74rem; white-space: pre-wrap; background: rgba(255,255,255,.7);
+    border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin-top: 6px; line-height: 1.45;
+  }
+  .demo-controls { text-align: center; padding: 14px; border-top: 1px solid var(--line); background: #fdfcf9; }
+  .demo-controls button {
+    font-family: inherit; font-size: .95rem; font-weight: 700; padding: 11px 22px; border-radius: 9px;
+    border: none; background: var(--accent); color: #fff; cursor: pointer;
+  }
+  .demo-controls button:hover { background: var(--accent-hover); }
+  .demo-controls button:disabled { background: #b9c6bf; cursor: default; }
+  .demo-steps { list-style: none; display: flex; flex-direction: column; gap: 0; }
+  .demo-steps li {
+    padding: 16px 18px 16px 46px; position: relative; border-left: 2px solid var(--line);
+    margin-left: 12px; color: var(--ink-soft); transition: color .3s ease;
+  }
+  .demo-steps li::before {
+    content: ""; position: absolute; left: -9px; top: 21px; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--paper); border: 2px solid var(--line); transition: all .3s ease;
+  }
+  .demo-steps li.active { color: var(--ink); }
+  .demo-steps li.active::before { background: var(--accent); border-color: var(--accent); }
+  .demo-steps li strong { display: block; font-size: 1.02rem; margin-bottom: 2px; color: inherit; }
+  .demo-steps li span { font-size: .88rem; }
+  .demo-honesty { margin-top: 22px; font-size: .82rem; color: var(--ink-soft); font-style: italic; }
+
+  /* ---------- story ---------- */
+  .story-quote {
+    border-left: 4px solid var(--gold); padding: 6px 0 6px 24px; margin: 30px 0;
+    font-family: Georgia, serif; font-size: 1.25rem; font-style: italic; color: var(--ink);
+    max-width: 680px;
+  }
+  .story-body { max-width: 680px; color: var(--ink-soft); font-size: 1.05rem; }
+  .story-body p + p { margin-top: 18px; }
+  .story-body strong { color: var(--ink); }
+
+  /* ---------- kit contents ---------- */
+  .kit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+  .kit-card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px;
+  }
+  .kit-card .emoji { font-size: 1.5rem; margin-bottom: 10px; display: block; }
+  .kit-card h3 { font-size: 1.05rem; margin-bottom: 6px; font-family: inherit; font-weight: 700; }
+  .kit-card p { font-size: .9rem; color: var(--ink-soft); }
+
+  /* ---------- how it works ---------- */
+  .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 26px; counter-reset: how; }
+  .how-step { position: relative; padding-top: 54px; }
+  .how-step::before {
+    counter-increment: how; content: counter(how);
+    position: absolute; top: 0; left: 0;
+    width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: Georgia, serif; font-size: 1.15rem;
+  }
+  .how-step h3 { font-size: 1.08rem; font-family: inherit; font-weight: 700; margin-bottom: 6px; }
+  .how-step p { font-size: .92rem; color: var(--ink-soft); }
+  .privacy-callout {
+    margin-top: 44px; background: var(--accent-soft); border: 1px solid #cfe2da; border-radius: 14px;
+    padding: 24px 28px; max-width: 760px;
+  }
+  .privacy-callout h3 { font-family: inherit; font-size: 1.05rem; margin-bottom: 6px; }
+  .privacy-callout p { font-size: .95rem; color: var(--ink-soft); }
+
+  /* ---------- pricing ---------- */
+  #pricing { background: var(--ink); color: #f2efe9; }
+  #pricing .section-kicker { color: #d9b25f; }
+  #pricing h2, #pricing .section-lede { color: #f2efe9; }
+  #pricing .section-lede { color: #b9c2bc; }
+  .price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; max-width: 780px; }
+  .price-card {
+    background: #29372f; border: 1px solid #3b4c42; border-radius: 16px; padding: 32px 28px;
+    display: flex; flex-direction: column;
+  }
+  .price-card.featured { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+  .price-card .plan { font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; color: #d9b25f; margin-bottom: 12px; }
+  .price-card .price { font-family: Georgia, serif; font-size: 2.6rem; margin-bottom: 4px; }
+  .price-card .price small { font-size: 1rem; color: #b9c2bc; font-family: inherit; }
+  .price-card ul { list-style: none; margin: 20px 0 28px; flex: 1; }
+  .price-card li { padding: 7px 0 7px 26px; position: relative; font-size: .93rem; color: #d7ddd8; }
+  .price-card li::before { content: "✓"; position: absolute; left: 0; color: #6fbf9a; font-weight: 700; }
+  .price-card .btn { text-align: center; }
+  .price-card .btn-primary { background: var(--gold); color: #1f2a24; }
+  .price-card .btn-primary:hover { background: #a67a27; color: #fff; }
+  .price-card .btn-ghost { border-color: #6fbf9a; color: #6fbf9a; }
+  .price-card .btn-ghost:hover { background: rgba(111,191,154,.12); }
+
+  /* ---------- faq ---------- */
+  .faq-list { max-width: 760px; }
+  details {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px 22px; margin-bottom: 12px;
+  }
+  details summary { font-weight: 700; cursor: pointer; font-size: 1rem; }
+  details p { margin-top: 12px; color: var(--ink-soft); font-size: .95rem; }
+
+  /* ---------- footer ---------- */
+  footer { border-top: 1px solid var(--line); padding: 44px 0 60px; text-align: center; color: var(--ink-soft); font-size: .9rem; }
+  footer .brand { font-size: 1.1rem; display: inline-block; margin-bottom: 10px; }
+  footer p { max-width: 520px; margin: 0 auto 6px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="brand" href="#top">Remote<span>Landlord</span>Kit</a>
+    <div class="nav-links">
+      <a href="#demo">See it work</a>
+      <a href="#kit">What's inside</a>
+      <a href="#faq">FAQ</a>
+      <a class="nav-cta" href="#pricing">Get the kit — $50</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <span class="kicker">For landlords who don't live near their rental</span>
+    <h1>I manage my rental house from 1,700 miles away — <em>with an AI staff.</em></h1>
+    <p class="sub">A tenant texts about a problem. Four minutes later the right vendor has an email with our account number, the tenant has a reply, and the cost is logged for taxes. This kit is my exact system — running on your own Claude subscription tonight.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#pricing">Get the kit — $50</a>
+      <a class="btn btn-ghost" href="#demo">Watch a real incident ↓</a>
+    </div>
+    <p class="note">No coding. No new app. Your data stays on your computer.</p>
+  </div>
+</header>
+
+<div class="proof">
+  <div class="proof-inner">
+    <div class="proof-item"><strong>4 min</strong><span>my time per repair incident</span></div>
+    <div class="proof-item"><strong>~5 hrs</strong><span>saved on one tenant turnover</span></div>
+    <div class="proof-item"><strong>1,700 mi</strong><span>between me and the property</span></div>
+    <div class="proof-item"><strong>$0/mo</strong><span>beyond the Claude plan you may already have</span></div>
+  </div>
+</div>
+
+<section id="demo">
+  <div class="wrap">
+    <div class="section-kicker">Live replay</div>
+    <h2>Watch what happened when something chewed a hole under my siding</h2>
+    <p class="section-lede">This is a step-by-step replay of a real incident from my incident log (names removed). Press play and watch the system work.</p>
+    <div class="demo-grid">
+      <div class="phone">
+        <div class="phone-top"><span><span class="dot"></span>House Manager</span><span>Claude</span></div>
+        <div class="chat" id="chat"></div>
+        <div class="demo-controls">
+          <button id="demoBtn" onclick="advanceDemo()">▶ Play the incident</button>
+        </div>
+      </div>
+      <div>
+        <ol class="demo-steps" id="steps">
+          <li data-step="1"><strong>Tenant reports the problem</strong><span>A text with a photo — that's all the input the system needs.</span></li>
+          <li data-step="2"><strong>Claude triages it</strong><span>Categorizes (pest / plumbing / HVAC…), sets urgency, opens an incident file.</span></li>
+          <li data-step="3"><strong>Finds the right vendor</strong><span>Checks my vendor registry — who covers pests, our account number, the last tech who came out.</span></li>
+          <li data-step="4"><strong>Drafts both emails</strong><span>One to the vendor with full context, one to the tenant so they're never left hanging. I review and hit send.</span></li>
+          <li data-step="5"><strong>Logs it for taxes</strong><span>The cost lands in a Schedule E ledger my accountant actually likes.</span></li>
+          <li data-step="6"><strong>Follows up</strong><span>If the vendor goes quiet for 2 business days, it reminds me to nudge.</span></li>
+        </ol>
+        <p class="demo-honesty">Honest note: this demo is a scripted replay of a real incident, not a live AI call — the kit runs the real thing on <em>your</em> Claude account.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="story">
+  <div class="wrap">
+    <div class="section-kicker">The story</div>
+    <h2>Built out of necessity, 1,700 miles from the problem</h2>
+    <div class="story-quote">"Hey — there's a hole under the siding by the back door. Something's been digging."</div>
+    <div class="story-body">
+      <p>That text arrived while I was in San Francisco. The house is in Texas. The old version of me would have spent the evening googling pest companies, playing phone tag, and forgetting to save the receipt.</p>
+      <p>Instead, I'd spent a few weekends teaching Claude how my house works: a <strong>property fact sheet</strong> (build year, HVAC age, foundation type — the things every vendor asks), a <strong>vendor registry</strong> (who covers what, account numbers, the last tech's name), and a simple <strong>incident workflow</strong>. No code — just well-organized notes that an AI can act on.</p>
+      <p>So this time: Claude read the text, categorized it as pest/exclusion, matched it to my pest vendor, pulled our account number, and drafted two emails — one to the vendor with the photo and a request for earliest availability, one to the tenant saying help was on the way. I read both, hit send twice, and went back to my evening. <strong>Four minutes.</strong></p>
+      <p>Since then the same system has coordinated a full tenant turnover, caught a lease clause that could have voided coverage, and kept a tax ledger that saved my accountant an hour of billable questions. The kit below is that exact system with my personal details stripped out and fill-in-the-blank templates in their place.</p>
+    </div>
+  </div>
+</section>
+
+<section id="kit">
+  <div class="wrap">
+    <div class="section-kicker">The product</div>
+    <h2>What's in the Remote Landlord Kit</h2>
+    <p class="section-lede">A folder you download, fill in once (about 30 minutes), and open with Claude. From then on, "there's a leak under the kitchen sink" is a four-minute problem.</p>
+    <div class="kit-grid">
+      <div class="kit-card"><span class="emoji">🧠</span><h3>The House Manager brain</h3><p>The instruction file that turns Claude into your property manager — triage rules, vendor routing, urgency levels, follow-up cadence. Battle-tested on real incidents.</p></div>
+      <div class="kit-card"><span class="emoji">🏠</span><h3>Property fact sheet</h3><p>A template capturing what every vendor asks: build year, HVAC/roof/water-heater age, foundation, shut-off locations. Fill it in once, never repeat yourself on the phone again.</p></div>
+      <div class="kit-card"><span class="emoji">📇</span><h3>Vendor registry</h3><p>Who covers pests vs plumbing vs HVAC, account numbers, pricing notes, and the "default vendor" pattern that ends decision paralysis at 9 PM.</p></div>
+      <div class="kit-card"><span class="emoji">✉️</span><h3>Email templates that get callbacks</h3><p>Vendor emails with full context (photo, account #, requested action, availability ask) and tenant replies that keep people calm. Claude fills them in per incident.</p></div>
+      <div class="kit-card"><span class="emoji">🧾</span><h3>Tax-ready ledgers</h3><p>Incident log, expense ledger (repairs vs. capital improvements), and rent-payment tracker — structured the way a Schedule E preparer wants them.</p></div>
+      <div class="kit-card"><span class="emoji">🔄</span><h3>Turnover bonus pack</h3><p>Move-out checklist and the utility-gap checklist (who to call, in what order, so the power's never off between tenants).</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="section-kicker">Setup</div>
+    <h2>How it works — no code, honest about the 30 minutes</h2>
+    <p class="section-lede">If you can fill out a form and copy a folder, you can run this. The start-here guide walks every step with screenshots.</p>
+    <div class="how-grid">
+      <div class="how-step"><h3>Download & unzip</h3><p>The kit is a folder of plain, readable files. Nothing to install except Claude itself (free guide covers the Claude Desktop app).</p></div>
+      <div class="how-step"><h3>Fill in your house</h3><p>Property facts, your vendors, your tenant's contact. About 30 minutes with a coffee. This is the "knowledge base" that makes the AI actually useful.</p></div>
+      <div class="how-step"><h3>Open it with Claude</h3><p>Point Claude at the folder and say what happened: "Tenant says the AC is blowing warm air." It takes it from there.</p></div>
+      <div class="how-step"><h3>Review & send</h3><p>Claude drafts; you approve. You're always the one hitting send — it's your house and your name on the emails.</p></div>
+    </div>
+    <div class="privacy-callout">
+      <h3>🔒 Your data never touches my servers — because there are none</h3>
+      <p>This isn't a SaaS. The kit runs entirely between your computer and your own Claude subscription (Pro plan, ~$20/mo, which many buyers already have). Your tenant's phone number, your vendor accounts, your rent roll: all of it stays in a folder you control.</p>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-kicker">Pricing</div>
+    <h2>Two ways to get this running</h2>
+    <p class="section-lede">Self-serve if you like tinkering. Done-with-you if you'd rather watch it get built for your actual properties.</p>
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="plan">Self-serve</div>
+        <div class="price">$50 <small>one-time</small></div>
+        <ul>
+          <li>The complete kit — every file above</li>
+          <li>Start-here guide for non-technical owners</li>
+          <li>FAQ + troubleshooting guide</li>
+          <li>Free updates as my own system improves</li>
+        </ul>
+        <a class="btn btn-primary" href="#" data-cta="gumroad">Get the kit</a>
+      </div>
+      <div class="price-card featured">
+        <div class="plan">Done with you</div>
+        <div class="price">$500 <small>90-min session</small></div>
+        <ul>
+          <li>Everything in the kit, included</li>
+          <li>Live 90-minute working session with me</li>
+          <li>We set it up for <em>your</em> properties & vendors together</li>
+          <li>You leave with a working system, not homework</li>
+          <li>2 weeks of email follow-up questions</li>
+        </ul>
+        <a class="btn btn-ghost" href="#" data-cta="calcom">Book a setup session</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="section-kicker">Questions</div>
+    <h2>The things everyone asks</h2>
+    <div class="faq-list">
+      <details>
+        <summary>Do I need to know how to code?</summary>
+        <p>No. The kit is folders and fill-in-the-blank documents. If you can rename a file and fill out a form, you're qualified. The start-here guide assumes you've never opened a terminal — because you shouldn't have to.</p>
+      </details>
+      <details>
+        <summary>What do I need to run it?</summary>
+        <p>A Claude subscription (Pro, ~$20/month — the same one millions of people already use for everyday questions) and the free Claude Desktop app. That's the entire stack. No hosting, no extra monthly fees to me, ever.</p>
+      </details>
+      <details>
+        <summary>Where does my data live?</summary>
+        <p>In a folder on your own computer. There is no server, no account with me, no database. Your conversations with Claude are covered by Anthropic's standard privacy terms, same as any Claude usage.</p>
+      </details>
+      <details>
+        <summary>Does the AI email my tenants and vendors by itself?</summary>
+        <p>No — and that's deliberate. It drafts; you review and send. It's your house, your relationships, and your name on the email. The system saves you the 40 minutes of composing, looking up account numbers, and remembering to log the expense — not the 30 seconds of judgment.</p>
+      </details>
+      <details>
+        <summary>I have more than one property. Does it scale?</summary>
+        <p>Yes — the structure is per-property fact sheets under one vendor registry. Several of the people I built this with manage two or three doors. If you have ten, book the setup session and we'll structure it properly from the start.</p>
+      </details>
+      <details>
+        <summary>What if it doesn't work for me?</summary>
+        <p>Email me within 14 days for a full refund. No form, no questions.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#top">Remote<span>Landlord</span>Kit</a>
+    <p>Built by a real remote landlord, written up in full on <a href="#" data-cta="substack">The Activation Function</a> — the story of the whole AI-staff system, free to read.</p>
+    <p>© 2026 · Questions? <a href="#" data-cta="email">Email me</a> · Not legal or tax advice; templates are starting points — check your state's rules.</p>
+  </div>
+</footer>
+
+<script>
+  // Scripted replay of the real 2026 siding incident (anonymized). No API calls.
+  const DEMO = [
+    { step: 1, bubbles: [
+      { cls: "sysnote", text: "Tuesday, 9:42 PM — tenant text forwarded in" },
+      { cls: "them", html: "Hey — there's a hole under the siding by the back door. Something's been digging. Sending a pic 📷" },
+      { cls: "them", html: "🖼️ <em>photo: gap chewed at the base of exterior siding</em>" },
+    ]},
+    { step: 2, bubbles: [
+      { cls: "agent", html: "<span class='tag'>Triage</span>Got it. Categorized as <strong>pest / exclusion</strong>, urgency: <strong>same-week</strong> (active entry point, no immediate hazard). Incident file opened." },
+    ]},
+    { step: 3, bubbles: [
+      { cls: "agent", html: "<span class='tag'>Vendor lookup</span>Your registry says <strong>pest &amp; exclusion → A-1 Pest Co.</strong> Last service was March (tech: Marcus). Account #ending-4471 pulled from your notes." },
+    ]},
+    { step: 4, bubbles: [
+      { cls: "agent", html: "<span class='tag'>Draft 1 — to the vendor</span><pre>Subject: Exclusion request — chewed gap at exterior siding (acct …4471)
+
+Hi A-1 team,
+Our tenant reports a hole chewed under the siding
+near the back door (photo attached). Likely rodent
+entry point. Could Marcus or another tech assess
+and quote exclusion + trapping?
+
+Earliest availability appreciated — tenant is home
+weekdays after 4 PM.</pre>" },
+      { cls: "agent", html: "<span class='tag'>Draft 2 — to the tenant</span><pre>Thanks for flagging this so fast — photo received.
+I've contacted our pest company and asked for
+their earliest visit. They'll coordinate a time
+with you directly. I'll keep you posted.</pre>" },
+      { cls: "sysnote", text: "You review both → hit send twice. Elapsed: ~4 minutes." },
+    ]},
+    { step: 5, bubbles: [
+      { cls: "agent", html: "<span class='tag'>Logged</span>Incident recorded. When the invoice arrives I'll file it under <strong>repairs &amp; maintenance</strong> in your Schedule E ledger and flag the receipt location." },
+    ]},
+    { step: 6, bubbles: [
+      { cls: "agent", html: "<span class='tag'>Follow-up armed</span>If A-1 hasn't replied by Thursday, I'll draft the nudge. Anything else about the house tonight?" },
+      { cls: "sysnote", text: "Real outcome: vendor came Friday, gap sealed, $285 logged. Total owner time: 4 minutes." },
+    ]},
+  ];
+
+  let demoIdx = 0;
+  const chat = document.getElementById("chat");
+  const btn = document.getElementById("demoBtn");
+
+  function advanceDemo() {
+    if (demoIdx >= DEMO.length) { resetDemo(); return; }
+    const stage = DEMO[demoIdx];
+    stage.bubbles.forEach((b, i) => {
+      const div = document.createElement("div");
+      div.className = "bubble " + b.cls;
+      if (b.html) div.innerHTML = b.html; else div.textContent = b.text;
+      chat.appendChild(div);
+      setTimeout(() => { div.classList.add("show"); chat.scrollTop = chat.scrollHeight; }, 120 + i * 350);
+    });
+    document.querySelectorAll(".demo-steps li").forEach(li => {
+      li.classList.toggle("active", Number(li.dataset.step) <= stage.step);
+    });
+    demoIdx++;
+    btn.textContent = demoIdx >= DEMO.length ? "↻ Replay" : "Next step →";
+  }
+
+  function resetDemo() {
+    demoIdx = 0;
+    chat.innerHTML = "";
+    document.querySelectorAll(".demo-steps li").forEach(li => li.classList.remove("active"));
+    btn.textContent = "▶ Play the incident";
+  }
+
+  // CTA placeholders until Gumroad / Cal.com / Substack links exist.
+  // Replace data-cta hrefs at deploy time; see products/remote-landlord-kit/README.md.
+  document.querySelectorAll("[data-cta]").forEach(a => {
+    a.addEventListener("click", e => {
+      if (a.getAttribute("href") === "#") {
+        e.preventDefault();
+        alert("Launching soon — this button will link to " + a.dataset.cta + ".");
+      }
+    });
+  });
+</script>
+</body>
+</html>
