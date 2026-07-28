@@ -397,7 +397,7 @@
 <footer>
   <div class="wrap">
     <a class="brand" href="#top">Remote<span>Landlord</span>Kit</a>
-    <p>Built by a real remote landlord, written up in full on <a href="#" data-cta="substack">The Activation Function</a> — the story of the whole AI-staff system, free to read.</p>
+    <p>Built by a real remote landlord, written up in full on <a href="https://theactivationfxn.substack.com/" target="_blank" rel="noopener">The Activation Function</a> — the story of the whole AI-staff system, free to read.</p>
     <p>© 2026 · Questions? Support comes with your kit — just reply to your Gumroad receipt. · Not legal or tax advice; templates are starting points — check your state's rules.</p>
   </div>
 </footer>
@@ -470,8 +470,7 @@ with you directly. I'll keep you posted.</pre>` },
     btn.textContent = "▶ Play the incident";
   }
 
-  // CTA placeholders until Gumroad / Cal.com / Substack links exist.
-  // Replace data-cta hrefs at deploy time; see products/remote-landlord-kit/README.md.
+  // The setup-session CTA remains a placeholder until its booking link exists.
   document.querySelectorAll("[data-cta]").forEach(a => {
     a.addEventListener("click", e => {
       if (a.getAttribute("href") === "#") {
